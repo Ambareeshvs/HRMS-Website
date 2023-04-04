@@ -1,0 +1,43 @@
+﻿@model UserResults
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+
+<div class="container">
+    <div>
+        <h3>@Model.UserName</h3>
+    </div>
+    <form asp-action="AddRemoveRoles" method="post">
+        <input type="hidden" asp-for="@Model.Id" />
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AddRemove.First().RoleName)
+                    </th>
+                    <th>
+                        @Html.DisplayNameFor(model => model.AddRemove.First().IsSelected)
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @for (int i = 0; i < Model.AddRemove.Count(); i++)
+                {
+                    <tr>
+                        <input type="hidden" asp-for="@Model.AddRemove[i].RoleId" />
+                        <td>
+                            <input type="hidden" asp-for="@Model.AddRemove[i].RoleName" />
+                            @Html.DisplayFor(modelItem => Model.AddRemove[i].RoleName)
+                        </td>
+                        <td>
+                            <input type="checkbox" asp-for="@Model.AddRemove[i].IsSelected" />
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        <input type="submit" class="btn btn-outline-primary" value="Update Role" />
+    </form>
+</div>

@@ -1,0 +1,256 @@
+﻿@model LeaveViewModel
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Leave Details
+        <div>
+            <a href="#" class="fa fa-add btn btn-primary" id="addBtn"></a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered" id="MyTable">
+            <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(data => data.LeaveName)</th>
+               <th>@Html.DisplayNameFor(data => data.StartDate)</th>
+                <th>@Html.DisplayNameFor(data => data.EndDate)</th>
+                <th>@Html.DisplayNameFor(data => data.Status)</th>
+                <th>Actions</th>
+
+            </tr>
+           
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer"></div>
+</div>
+
+
+@*Modal for Cancelling*@
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="fa fa-trash-can"></i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="modalBtnDlt">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*Modal for Create Item*@
+<div class="modal fade" id="modalFormAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Leave Application</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <div class="form-group mx-2 mb-3">
+                    <label for="Leave Name">Leave Name</label>
+                    @*<input type="text" class="form-control" id="leavename" placeholder="Enter the Leave Name" required="">*@
+                  
+
+                    <select asp-for="LeaveId" asp-items="ViewBag.Leaves" id="ViewBagLeave" style="width:100%">
+                        <option value="-1">-Select Leave-</option>                        
+
+                    </select>
+                    <label for="StartDate">Start Date</label>
+                    <input type="datetime-local" class="form-control" id="startDate" placeholder="Enter the Start Date" required="">
+                    <label for="EndDate">End Date</label>
+                    <input type="datetime-local" class="form-control" id="endDate" placeholder="Enter the End Date" required="">
+                    <label for="Project Name">Days</label>
+                    <input type="text" class="form-control" id="days" placeholder="Enter the Number of Days" required="" disabled>
+                    <label for="Project Name">Description</label>
+                    <input type="text" class="form-control" id="description" placeholder="Description" required="">
+
+                </div>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="addSubmit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        function CancelModal(id) {
+            console.log(id);
+            $('#myModal').modal('show');
+            $('#modalBtnDlt').click(function () {
+                $.ajax({
+                    "type": "GET",
+                    "url": "@Url.Action("DltLeaveAppById")",
+                    "dataType": 'json',
+                    "data": { "Id": id },
+                    "success": function (data) {
+                        //alert("success");
+                        window.location.href = '@Url.Action("LeaveTracker","HRMS")'
+                        setInterval('location.reload()', 1000);
+                    },
+                    "error": function (data) {
+                        alert("failed");
+                    }
+                });
+                
+            });
+        };
+
+        $(document).ready(function () {
+
+            $('#MyTable').DataTable({
+                "processing": false,
+                "serverSide": false,
+                "filter": true, 
+                "searching": false,
+                "ajax": {
+                    "url": "@Url.Action("ListLeavesDataTable","HRMS")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                
+                "columns": [
+
+                    { "data": "leaveName", "name": "LeaveName", "autoWidth": true },
+                    { "data": "startDate", "name": "StartDate", "autoWidth": true, render: function (data, type, row) {
+                            return moment(data).format("DD-MM-YYYY");
+                        } },
+                    { "data": "endDate", "name": "EndDate", "autoWidth": true, render: function (data, type, row) {
+                            return moment(data).format("DD-MM-YYYY");
+                        } },
+                    { "data": "status", "name": "Status", "autoWidth": true },
+
+                    {
+                        
+                        "render": function (data, type, full, meta) {
+                            if(full.status == "Pending"){
+                            return '<a onclick=CancelModal("' + full.id + '"); class="btn btn-outline-primary cancelBtn" >Cancel</a>';
+                            }
+                            else if (full.status == "Approved") {
+                                return '<a class="btn btn-success" >Approved</a>';
+                            }
+                            else{
+                                return '<a class="btn btn-danger" >Rejected</a>';
+                            }
+                        }
+                        
+                        
+                    }
+                ]
+            });
+
+            $('#ViewBagLeave').select2({
+                theme: "bootstrap4",
+                placeholder: "Leave Name",
+                allowClear: true
+            });
+
+            
+
+            $('#endDate').blur(function () {
+                var startDay = new Date($('#startDate').val());
+                var endDay = new Date($('#endDate').val());
+
+                if(startDay <= endDay){
+
+                var millisBetween = startDay.getTime() - endDay.getTime();
+                    var days = Math.round(Math.abs(millisBetween / (1000 * 3600 * 24)));
+
+                    var leaveId = $('#ViewBagLeave').find(":selected").val();
+                    console.log(leaveId);
+                    $.ajax({
+                        "type": "POST",
+                        "url": "@Url.Action("LeavesRemaining")",
+                        "datatype": 'json',
+                        "data": { "leaveId": leaveId, "requestedDays": days },
+                        "success": function (data) {
+                            if(data == true){
+                            $('#days').val(Math.round(Math.abs(days)));
+                            }
+                            else{
+                                alert("Request Number of leaves not available");
+                            }
+                        },
+                        "error": function (data) {
+                            alert("Error");
+                        }
+                    });
+                
+                }
+                else{
+                    alert("End Date is Invalid");
+                }
+
+            });
+
+            $('#addBtn').click(function () {
+                $('#modalFormAdd').modal('show');
+                $("#addSubmit").click(function () {
+                    var startDay = new Date($('#startDate').val());
+                    var dateS = startDay.getDate();
+                    var monthS = startDay.getMonth() + 1;
+                    var yearS = startDay.getFullYear();
+                    var startDate = dateS + "-" + monthS + "-" + yearS;
+
+                    var endDay = new Date($('#endDate').val());
+                    var dateE = startDay.getDate();
+                    var monthE = startDay.getMonth() + 1;
+                    var yearE = startDay.getFullYear();
+                    var endDate = dateE + "-" + monthE + "-" + yearE;
+
+                    var description = $('#description').val();
+                    var leaveId = $('#ViewBagLeave').val();
+                    var millisBetween = startDay.getTime() - endDay.getTime();
+                    var days = Math.round(Math.abs(millisBetween / (1000 * 3600 * 24)));
+
+                    $.ajax({
+                        "type": "POST",
+                        "url": "@Url.Action("LeaveTracker")",
+                        "datatype": 'json',
+                        "data": { "startDate": startDate, "endDate": endDate, "days": days, "Description": description, "leaveId": leaveId },
+                        "success": function (data) {
+                            window.location.href = '@Url.Action("leavetracker","hrms")'
+                            setinterval('location.reload()', 1000);
+                        },
+                        "error": function (data) {
+                            alert("Error");
+
+                        }
+                    });
+                        
+                });
+
+            });
+
+        });
+
+        function refreshPage() {
+            location.reload(true);
+        }
+
+    </script>
+}

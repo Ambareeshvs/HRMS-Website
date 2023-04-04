@@ -1,0 +1,129 @@
+is_global = true
+build_property.TargetFramework = net6.0
+build_property.TargetPlatformMinVersion = 
+build_property.UsingMicrosoftNETSdkWeb = true
+build_property.ProjectTypeGuids = 
+build_property.InvariantGlobalization = 
+build_property.PlatformNeutralAssembly = 
+build_property.EnforceExtendedAnalyzerRules = 
+build_property._SupportedPlatformList = Linux,macOS,Windows
+build_property.RootNamespace = HRMSWebpage
+build_property.RootNamespace = HRMSWebpage
+build_property.ProjectDir = C:\MyDev\HRMS\HRMSWebpage\
+build_property.RazorLangVersion = 6.0
+build_property.SupportLocalizedComponentNames = 
+build_property.GenerateRazorMetadataSourceChecksumAttributes = true
+build_property.MSBuildProjectDirectory = C:\MyDev\HRMS\HRMSWebpage
+build_property._RazorSourceGeneratorDebug = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Account/SignInPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWNjb3VudFxTaWduSW5QYWdlLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/AddRemoveRoles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cQWRkUmVtb3ZlUm9sZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/EditUserById.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cRWRpdFVzZXJCeUlkLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListAllDepartment.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEFsbERlcGFydG1lbnQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListAllLeaves.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEFsbExlYXZlcy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListAllPosition.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEFsbFBvc2l0aW9uLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListAllProjects.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEFsbFByb2plY3RzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListAllSalary.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEFsbFNhbGFyeS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListAllTrainings.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdEFsbFRyYWluaW5ncy5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListUsersRoles.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdFVzZXJzUm9sZXMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/ListUsersUsers.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cTGlzdFVzZXJzVXNlcnMuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Admin/SignUpPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcQWRtaW5cU2lnblVwUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Employee/ProfilePage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcRW1wbG95ZWVcUHJvZmlsZVBhZ2UuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HRMS/LandingPage.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJNU1xMYW5kaW5nUGFnZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HRMS/LeaveTracker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJNU1xMZWF2ZVRyYWNrZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HRMS/ProjectTracker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJNU1xQcm9qZWN0VHJhY2tlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HRMS/SearchEmployee.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJNU1xTZWFyY2hFbXBsb3llZS5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HRMS/TrainingTracker.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJNU1xUcmFpbmluZ1RyYWNrZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HR/LeaveRequestApprover.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcTGVhdmVSZXF1ZXN0QXBwcm92ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HR/ProjectRequestApprover.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcUHJvamVjdFJlcXVlc3RBcHByb3Zlci5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/HR/TrainingRequestApprover.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcSFJcVHJhaW5pbmdSZXF1ZXN0QXBwcm92ZXIuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Shared/Error.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXEVycm9yLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Shared/_EmptyLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9FbXB0eUxheW91dC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Shared/_HRMSLayout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9IUk1TTGF5b3V0LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Shared/_ValidationScriptsPartial.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9WYWxpZGF0aW9uU2NyaXB0c1BhcnRpYWwuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/_ViewImports.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdJbXBvcnRzLmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/_ViewStart.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcX1ZpZXdTdGFydC5jc2h0bWw=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/MyDev/HRMS/HRMSWebpage/Views/Shared/_Layout.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3NcU2hhcmVkXF9MYXlvdXQuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = b-42b4g7ep4g

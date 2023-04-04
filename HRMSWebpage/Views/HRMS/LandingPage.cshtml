@@ -1,0 +1,192 @@
+﻿@{
+    Layout = "_HRMSLayout";
+}
+
+<link href="~/css/style.css" rel="stylesheet" />
+
+<div class="container">
+    <div class="d-flex justify-content-between mr-3">
+        Dashboard
+        <input type="button" id="timer" class="btn btn-success" value="Log In" />
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow  py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Annual Leave
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">@ViewBag.AnnualLeave
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow  py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Casual Leave
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @ViewBag.CasualLeave
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow  py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Sick Leave
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @ViewBag.SickLeave
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Earnings (Monthly) Card Example -->
+        <div class="col-xl-3 col-md-6 mb-4">
+            <div class="card border-left-primary shadow  py-2">
+                <div class="card-body">
+                    <div class="row no-gutters align-items-center">
+                        <div class="col mr-2">
+                            <div class="text-xs font-weight-bold text-primary text-uppercase mb-1">
+                                Unpaid Leave
+                            </div>
+                            <div class="h5 mb-0 font-weight-bold text-gray-800">
+                                @ViewBag.UnpaidLeave
+                            </div>
+                        </div>
+                        <div class="col-auto">
+                            <i class="fas fa-calendar fa-2x text-gray-300"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4">
+    <div class="row">
+
+        <div class="col-lg-4">
+
+            <div class="card shadow mb-4 h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Birthday</h6>
+                </div>
+                <div class="card-body">
+                    No Birthday Today..
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+
+            <div class="card shadow mb-4 h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">New Hires</h6>
+                </div>
+                <div class="card-body">
+                    @*<i class="fa fa-cake-candles"></i>*@
+                    No New Hires..!!!
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow mb-4 h-100">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Favorites</h6>
+                </div>
+                <div class="card-body">
+                    No Favorites Found..!!
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+            var loggedInTime;
+            var loggedOutTime;
+            $('#timer').click(function () {
+                loggedInTime = new Date().getTime();
+                var currentTime = new Date();
+                var countDownTime = currentTime.setHours(currentTime.getHours() + 10);
+
+                var x = setInterval(function () {
+                    var now = new Date().getTime();
+
+                    var distance = countDownTime - now;
+
+                    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+
+                    $('#timer').val(hours + "h :"
+                        + minutes + "m :" + seconds + "s ");
+
+                    $('#timer').click(function () {
+                        loggedOutTime = new Date().getTime();
+                        console.log(loggedInTime);
+                        console.log(loggedOutTime);
+                        $('#timer').val("Logged Out");
+                        window.location.href = '@Url.Action("LandingPage","HRMS")'
+                    });
+
+                    //if (distance < 0) {
+                    //    clearInterval(x);
+                    //    $('#timer').val("Thank you");
+                    //}
+                }, 1000);
+
+                //$(this).setAttribute('disabled') = 'disabled';
+            });
+
+            $('#sickLeaves').val(12);
+
+        });
+    </script>
+}
+

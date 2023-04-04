@@ -1,0 +1,87 @@
+﻿@model LeaveViewModel
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Leave Requests
+        @*<div>
+            <a href="#" class="fa fa-add btn btn-primary" id="addBtn"></a>
+        </div>*@
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered" id="MyTable">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(data => data.FirstName)</th>
+                    <th>@Html.DisplayNameFor(data => data.LeaveName)</th>
+                    <th>@Html.DisplayNameFor(data => data.StartDate)</th>
+                    <th>@Html.DisplayNameFor(data => data.EndDate)</th>
+                    <th>@Html.DisplayNameFor(data => data.Days)</th>
+                    <th>@Html.DisplayNameFor(data => data.Description)</th>
+                    <th>@Html.DisplayNameFor(data => data.Status)</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer"></div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#MyTable').DataTable({
+                "processing": false,
+                "serverSide": false,
+                "filter": true,
+                "searching": false,
+                "ajax": {
+                    "url": "@Url.Action("ListLeavesDataTable","HR")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "firstName", "name": "FirstName", "autoWidth": true },
+                    { "data": "leaveName", "name": "LeaveName", "autoWidth": true },
+                    {
+                        "data": "startDate", "name": "StartDate", "autoWidth": true, render: function (data, type, row) {
+                            return moment(data).format("DD-MM-YYYY");
+                        }
+                    },
+                    {
+                        "data": "endDate", "name": "EndDate", "autoWidth": true, render: function (data, type, row) {
+                            return moment(data).format("DD-MM-YYYY");
+                        }
+                    },
+                    { "data": "days", "name": "Days", "autoWidth": true },
+                    { "data": "description", "name": "Description", "autoWidth": true },
+                    { "data": "status", "name": "Status", "autoWidth": true },
+
+                    {
+                        "render": function (data, type, full, meta) {
+                            if(full.status == "Pending"){
+                                return '<a href="ApproveLeaveAppById/' + full.leaveAppId + '" class="btn btn-primary approveBtn" >Approve</a> <a href="RejectLeaveAppById/' + full.leaveAppId + '" class="btn btn-danger rejectBtn" >Reject</a>';
+                            }
+                            else{
+                                return '<a class="btn btn-secondary approveBtn" ><i class="fas fa-fw fa-thumbs-up"></i></a>';
+                            }
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}
+
+

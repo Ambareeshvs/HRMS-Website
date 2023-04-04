@@ -1,0 +1,158 @@
+﻿@model IEnumerable<IdentityUser>
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Role Details
+        <div>
+            <a href="#" id="addRoleButton"  class="fa fa-add btn btn-primary"></a>
+        </div>
+    </div>
+    @*<a href="#" class="btn btn-primary" id="addRoleButton"><i class="fa fa-plus"></i> Role</a>*@
+</div>
+<hr class="" />
+<div class="container mt-4">
+    <table class="table  table-bordered" id="MyTable">
+        <thead>
+            <tr>
+                @*<th>
+                    Select
+                </th>*@
+                <th>
+                    @Html.DisplayNameFor(model => model.Id)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.UserName)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Email)
+                </th>
+                <th>
+                    Actions
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+</div>
+
+
+
+@*Modal for Add Role*@
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Role Name</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <form id="inputs" class="needs-validation" novalidate="">
+                    <div class="form-group mx-2 mb-3">
+                        <label for="Role Name">Role Name</label>
+                        <input type="text" class="form-control" id="rolename" placeholder="Role Name" required="">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="submit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+
+            $('#MyTable').DataTable({
+                "processing": true,
+                "serverSide": false,
+                "filter": true,
+                "searching": false,
+                "ajax": {
+                    "url": "@Url.Action("ListUsersDataTable","Admin")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+                "columnDefs": [{
+                    "targets": [0],
+
+                    'render': function (data, type, full, meta) {
+                        return $('<div/>').text(data).html();
+                        
+                        //'<input type="checkbox" name="id[]" value="' +
+                        //    $('<div/>').text(data).html() + '">';
+                    }
+                }],
+                "columns": [
+                    //{ "data": " ", "name": "Select", "autoWidth": true },
+
+                    { "data": "id", "name": "Id", "autoWidth": true },
+                    { "data": "userName", "name": "UserName", "autoWidth": true },
+                    { "data": "email", "name": "Email", "autoWidth": true },
+
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a class="btn btn-primary" href="AddRemoveRoles/' + full.id + '" ><i class="fa fa-user-plus"></i></a>';
+
+                        }
+                    },
+                ]
+            });
+
+
+
+            $('#addRoleButton').click(function () {
+                $('#modalForm').modal({
+                    backdrop: 'static',
+                    keyboard: false
+                })
+
+                $("#submit").click(function () {
+                    var form = $("#inputs")
+                    if (form[0].checkValidity() === false) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+                    form.addClass('was-validated')
+
+                    $("#inputs").each(function () {
+                        var code = "";
+                        var text1 = $(this).find("#rolename").val();
+                        code += text1;
+                        $.ajax({
+                            "type": "POST",
+                            "url": "@Url.Action("AddRoles")",
+                            "datatype": 'json',
+                            "data": { "RoleName": code },
+                            "success": function (data) {
+                                window.location.href = '@Url.Action("ListUsersRoles","Admin")'
+                                setInterval('location.reload()', 1000);
+                            },
+                            "error": function (data) {
+                                alert("Error");
+
+                            }
+
+                        });
+                    });
+                });
+            });
+
+
+        });
+ 
+
+    </script>
+}

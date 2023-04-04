@@ -1,0 +1,304 @@
+﻿@model EmpDeptPosSalViewModel
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+<link href="~/css/style.css" rel="stylesheet" />
+
+
+<div class="container py-2">
+    <div class="row">
+        <div class="card mb-4">
+            <div class="card-body" id="">
+                <div id="coverImg" class="text-center">
+                    <img src="~/Images/@Model.Image" alt="avatar"
+                         class="rounded-circle img-fluid" id="profile-image" style="width:100px;">
+                </div>
+                <div class="row mt-2">
+                    <div class="col-lg-3 text-center">
+                        @Model.FirstName @Model.LastName
+                    </div>
+                    <div class="col-lg-3 text-center">
+                        @Model.DeptName
+                    </div>
+                    <div class="col-lg-3 text-center">
+                        @Model.PositionName
+                    </div>
+                    <div class="col-lg-3 text-center">
+                        @Model.Email
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="card shadow mb-4">
+                <div class="card-header py-3">
+                    <h6 class="m-0 font-weight-bold text-primary">Reporting To</h6>
+                </div>
+                <div class="card-body">
+                    <div class="text-center">
+                        <img src="~/Images/74472.png" alt="avatar"
+                             class="rounded-circle img-fluid" style="width: 80px;">
+                    </div>
+                    <hr class="mt-2">
+                    <div class="row mt-2">
+                        <div class="col-sm-6">
+                            <p class="mb-0">Name</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">HR User</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-6">
+                            <p class="mb-0">Department Name</p>
+                        </div>
+                        <div class="col-sm-6">
+                            <p class="text-muted mb-0">Development</p>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="card mb-4 .h-100">
+                <div class="card-header py-3 d-flex justify-content-between">
+                    <h6 class="m-0 font-weight-bold text-primary">Basic Info</h6>
+                    <div>
+                        <a href="#" data-id="@Model.EmpId" data-last="@Model.LastName" data-phNo="@Model.PhoneNumber" data-address="@Model.Address" id="editBtnEmp" class="btn btn-primary"><i class="fa fa-pen-to-square"></i></a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Employee ID</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.EmpId</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Full Name</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.FirstName @Model.LastName</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Email</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Email</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Phone</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.PhoneNumber</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Sex</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Sex</p>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-sm-3">
+                            <p class="mb-0">Address</p>
+                        </div>
+                        <div class="col-sm-9">
+                            <p class="text-muted mb-0">@Model.Address</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        @*Salary Details Start*@
+
+        <div class="row mt-4">
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Salary Breakdown</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-pie pt-4">
+                            <canvas id="myPieChart"></canvas>
+                        </div>
+                        <hr>
+                        Monthly CTC: ₹<span class="MonthlyCTC"></span>  <br />
+                        Yearly CTC: ₹<span id="YearlyCTC"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Earnings</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 d-flex justify-content-between">
+                            <div>
+                                <div>Basic Pay</div>
+                                <div>House Rent Allowance</div>
+                                <div>LTA</div>
+                                <div>Meal Allowance</div>
+                                <div>Fixed Allowance</div>
+                            </div>
+                            <div>
+                                <div>₹@Model.BasicPay</div>
+                                <input type="hidden" asp-for="@Model.BasicPay" id="bp" />
+                                <div>₹10,000.00</div>
+                                <div>₹2,000.00</div>
+                                <div>₹6,000.00</div>
+                                <div>₹2,000.00</div>
+                            </div>
+                        </div>
+
+                        <hr>
+                        Total Earnings: ₹<span id="totEarn"></span>  <br />
+                        Monthly CTC: ₹<span class="MonthlyCTC"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-4 col-lg-5">
+                <div class="card shadow mb-4">
+                    <div class="card-header py-3">
+                        <h6 class="m-0 font-weight-bold text-primary">Deductions</h6>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-pie pt-4 d-flex justify-content-between">
+                            <div>
+                                <div>EPF - Employer Contribution</div>
+                                <div>EDLI - Employer Contribution</div>
+                                <div>EPF Admin Charges</div>
+                                <div>Employer's contribution LWF</div>
+                            </div>
+                            <div>
+                                <div>₹@Model.ProvidentFund</div>
+                                <input type="hidden" asp-for="@Model.ProvidentFund" id="pf"/>
+                                <div>₹75.00</div>
+                                <div>₹75.00</div>
+                                <div>₹50.00</div>
+                            </div>
+                        </div>
+                        <hr>
+                        Total Deductions: ₹<span id="totDed"></span>  <br />
+                        Monthly CTC: ₹<span class="MonthlyCTC"></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        @*Salary details End*@
+
+
+    </div>
+</div>
+
+@*Modal for Edit Item*@
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Your Details</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <div class="form-group mx-2 mb-3">
+                    <label for="LastName">Last Name</label>
+                    <input type="text" class="form-control" id="lastname" placeholder="" required="">
+                </div>
+                <div class="form-group mx-2 mb-3">
+                    <label for="PhoneNo">Phone Number</label>
+                    <input type="text" class="form-control" id="phNo" placeholder="" required="">
+                </div>
+                <div class="form-group mx-2 mb-3">
+                    <label for="Address">Address</label>
+                    <input type="text" class="form-control" id="address" placeholder="" required="">
+                </div>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="editSubmit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+
+            var deb = Number($('#pf').val()) + Number(200);
+            var earn = Number($('#bp').val()) + Number(20000);
+            var CTCMonthly = earn - deb;
+            var CTCYearly = CTCMonthly * 12;
+            $('#totDed').html(deb);
+            $('#totEarn').html(earn);
+            $('.MonthlyCTC').html(CTCMonthly);
+            $('#YearlyCTC').html(CTCYearly);
+
+
+            $('#editBtnEmp').click(function () {
+                var id = $(this).attr('data-id');
+                var address = $(this).attr('data-address');
+                var phno = $(this).attr('data-phNo');
+                var lastname = $(this).attr('data-last');
+                $('#modalForm').modal('show');
+
+                $("#lastname").val(lastname);
+                $("#phNo").val(phno);
+                $("#address").val(address);
+                $("#editSubmit").click(function () {
+                    var code = "";
+                    var code1 = "";
+                    var code2 = "";
+                    var text = $("#lastname").val();
+                    var text1 = $("#phNo").val();
+                    var text2 = $("#address").val();
+                    code += text;
+                    code1 += text1;
+                    code2 += text2;
+                    $.ajax({
+                        "type": "POST",
+                        "url": "@Url.Action("EditEmpDetailsByEmp")",
+                        "datatype": 'json',
+                        "data": { "EmpID": id, "LastName": code, "PhoneNo": code1, "Address": code2 },
+                        "success": function (data) {
+                        },
+                        "error": function (data) {
+                            alert("Error");
+                        }
+                    });
+                    window.location.href = '@Url.Action("ProfilePage","Employee")'
+                    setInterval('location.reload()', 1000);
+                });
+            });
+            
+        });
+    </script>
+}

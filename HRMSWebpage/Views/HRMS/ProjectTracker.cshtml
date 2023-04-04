@@ -1,0 +1,33 @@
+﻿@model IEnumerable<ProjectViewModel>
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Projects Assigned
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>@Html.DisplayNameFor(projects => projects.PrjtName)</th>
+                <th>@Html.DisplayNameFor(projects => projects.PrjtDescription)</th>
+                <th>@Html.DisplayNameFor(projects => projects.StartTime)</th>
+                <th>@Html.DisplayNameFor(projects => projects.EndTime)</th>
+                <th>@Html.DisplayNameFor(projects => projects.ProjectStatus)</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(projects => item.PrjtName)</td>
+                    <td>@Html.DisplayFor(projects => item.PrjtDescription)</td>
+                    <td>@Html.DisplayFor(projects => item.StartTime)</td>
+                    <td>@Html.DisplayFor(projects => item.EndTime)</td>
+                    <td>@Html.DisplayFor(projects => item.ProjectStatus)</td>
+                </tr>
+            }        
+        </table>
+    </div>
+    <div class="card-footer"></div>
+</div>

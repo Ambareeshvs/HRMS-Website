@@ -1,0 +1,156 @@
+﻿@model EmployeeViewModel
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<link href="https://raw.githack.com/ttskch/select2-bootstrap4-theme/master/dist/select2-bootstrap4.css" rel="stylesheet">
+
+<div class="container">
+    <div class="card-header d-flex justify-content-start">
+        Add Employee Details
+    </div>
+    <form enctype="multipart/form-data" asp-action="EditUserById" method="post">
+        <div class="row mt-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="EmpId" />
+            <input type="hidden" asp-for="Email" />
+
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="EmpId" class="control-label"></label>
+                    <input asp-for="EmpId" class="form-control" disabled />
+                    <span asp-validation-for="EmpId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Email" class="control-label"></label>
+                    <input asp-for="Email" class="form-control" disabled />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="PhoneNumber" class="control-label"></label>
+                    <input asp-for="PhoneNumber" class="form-control" />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="FirstName" class="control-label"></label>
+                    <input asp-for="FirstName" class="form-control" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="LastName" class="control-label"></label>
+                    <input asp-for="LastName" class="form-control" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Address" class="control-label"></label>
+                    <input asp-for="Address" class="form-control" />
+                    <span asp-validation-for="Address" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="PositionId" class="control-label"></label>
+                    @*<input asp-for="PositionId" class="form-control" />*@
+                    <select asp-for="PositionId" id="ViewBagPos" style="width:100%">
+                        <option value="-1">-Select Positions-</option>
+                        @foreach (var pos in ViewBag.Posts)
+                        {                                              
+                            <option value="@pos.PositionId">@pos.PositionName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="PositionId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="SalaryId" class="control-label"></label>
+                    @*<input asp-for="SalaryId" class="form-control" />*@
+                    <select asp-for="SalaryId" id="ViewBagSal" style="width:100%">
+                        <option value="-1">-Select Beneficiary Group-</option>
+                        @foreach (var sal in ViewBag.Salaries)
+                        {                                              
+                            <option value="@sal.SalaryId">@sal.Beneficiaries</option>
+                        }
+                    </select>
+                    <span asp-validation-for="SalaryId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="DeptId" class="control-label"></label>
+                    @*<input asp-for="DeptId" class="form-control" />*@
+                    <select asp-for="DeptId" id="ViewBagDept" style="width:100%">
+                        <option value="-1">-Select Department Name-</option>
+                        @foreach (var dep in ViewBag.Departments)
+                        {                                              
+                            <option value="@dep.DeptId">@dep.DeptName</option>
+                        }
+                    </select>
+                    <span asp-validation-for="DeptId" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="DOB" class="control-label"></label>
+                    <input asp-for="DOB" class="form-control" />
+                    <span asp-validation-for="DOB" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Sex" class="control-label"></label>
+                    <input asp-for="Sex" class="form-control" />
+                    <span asp-validation-for="Sex" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label asp-for="Image" class="control-label custom-file"></label>
+                    <input asp-for="ImgName" class="form-control custom-file" />
+                    <span asp-validation-for="Image" class="text-danger custom-file-input"></span>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
+</div>
+
+@section scripts
+    {
+    @await Html.PartialAsync("_ValidationScriptsPartial");
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.0.12/dist/js/select2.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#ViewBagSal').select2({
+                theme: "bootstrap4",
+                placeholder: "Name",
+                allowClear: true
+            });
+            $('#ViewBagDept').select2({
+                theme: "bootstrap4",
+                placeholder: "Name",
+                allowClear: true
+            });
+            $('#ViewBagPos').select2({
+                theme: "bootstrap4",
+                placeholder: "Name",
+                allowClear: true
+            });
+        });
+
+    </script>
+}

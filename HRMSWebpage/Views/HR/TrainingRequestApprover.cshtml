@@ -1,0 +1,90 @@
+﻿@model TrainingViewModel
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Training Requests
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered" id="MyTable">
+            <thead>
+                <tr>
+                    @*<th>@Html.DisplayNameFor(data => data.FirstName)</th>
+                    <th>@Html.DisplayNameFor(data => data.TrainingName)</th>
+                    <th>@Html.DisplayNameFor(data => data.StartDate)</th>
+                    <th>@Html.DisplayNameFor(data => data.EndDate)</th>
+                    <th>@Html.DisplayNameFor(data => data.TrainingDetails)</th>
+                    <th>@Html.DisplayNameFor(data => data.Status)</th>*@
+                    <th>Name</th>
+                    <th>Training Name</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Training Details</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer"></div>
+</div>
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+
+            $('#MyTable').DataTable({
+                "processing": false,
+                "serverSide": false,
+                "filter": true,
+                "searching": false,
+                "ajax": {
+                    "url": "@Url.Action("ListTrainingDataTable","HR")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                "columns": [
+                    { "data": "firstName", "name": "FirstName", "autoWidth": true },
+                    { "data": "trainingName", "name": "TrainingName", "autoWidth": true },
+                    {
+                        "data": "startDate", "name": "StartDate", "autoWidth": true, render: function (data, type, row) {
+                            return moment(data).format("DD-MM-YYYY");
+                        }
+                    },
+                    {
+                        "data": "endDate", "name": "EndDate", "autoWidth": true, render: function (data, type, row) {
+                            return moment(data).format("DD-MM-YYYY");
+                        }
+                    },
+                    { "data": "trainingDetails", "name": "TrainingDetails", "autoWidth": true },
+                    { "data": "status", "name": "Status", "autoWidth": true },
+
+                    {
+                        "render": function (data, type, full, meta) {
+                            if (full.status == "Pending") {
+                                return '<a href="ApproveTrainingAppById/' + full.trainingAppId + '" class="btn btn-primary approveBtn" ><i class="fas fa-fw fa-check"></i></a> <a href="RejectTrainingAppById/' + full.trainingAppId + '" class="btn btn-danger rejectBtn" ><i class="fas fa-fw fa-xmark"></i></a>';
+                            }
+                            else if ((full.status == "Approved") || (full.status == "Rejected")){
+                                return '<a href="DoneTrainingAppById/' + full.trainingAppId + '" class="btn btn-primary approveBtn" ><i class="fas fa-fw fa-square-check"></i></a> <a href="RemoveTrainingAppById/' + full.trainingAppId + '" class="btn btn-danger rejectBtn" ><i class="fas fa-fw fa-trash"></i></a>';
+                                
+                            }
+                            else {
+                                return '<a class="btn btn-primary" ><i class="fas fa-fw fa-thumbs-up"></i></a>';
+                            }
+                        }
+                    }
+                ]
+            });
+        });
+    </script>
+}

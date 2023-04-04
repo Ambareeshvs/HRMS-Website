@@ -1,0 +1,216 @@
+﻿@model IEnumerable<Training>
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Training Details
+        <div>
+            <a href="#" class="addBtn fa fa-add btn btn-primary"></a>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered">
+            <tr>
+                <th>@Html.DisplayNameFor(training => training.TrainingId)</th>
+                <th>@Html.DisplayNameFor(training => training.TrainingName)</th>
+                <th>@Html.DisplayNameFor(training => training.TrainingDetails)</th>
+                <th>Actions</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(training => item.TrainingId)</td>
+                    <td>@Html.DisplayFor(training => item.TrainingName)</td>
+                    <td>@Html.DisplayFor(training => item.TrainingDetails)</td>
+                    <td><a href="#" data-id="@item.TrainingId" data-name="@item.TrainingName" data-details="@item.TrainingDetails" class="editBtn btn btn-primary"><i class="fa fa-pen-to-square"></i></a>  <a href="#" data-id="@item.TrainingId" class="dltBtn btn btn-danger"><i class="fa fa-trash-can"></i></a></td>
+                </tr>
+            }        
+        </table>
+    </div>
+    <div class="card-footer"></div>
+</div>
+
+
+@*Modal for Delete Item*@
+<div id="myModal" class="modal fade">
+    <div class="modal-dialog modal-confirm">
+        <div class="modal-content">
+            <div class="modal-header flex-column">
+                <div class="icon-box">
+                    <i class="fa fa-trash-can"></i>
+                </div>
+                <h4 class="modal-title w-100">Are you sure?</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p>Do you really want to delete this records? This process cannot be undone.</p>
+            </div>
+            <div class="modal-footer justify-content-center">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-danger" id="modalBtnDlt">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Modal for Edit Item*@
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Training Name</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <div class="form-group mx-2 mb-3">
+                    <label for="Trainig Name">Training Name</label>
+                    <input type="text" class="form-control" id="trainingname" placeholder="" required="">
+                    <label for="Trainig Details">Training Details</label>
+                    <input type="text" class="form-control" id="trainingdetails" placeholder="" required="">
+                </div>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="editSubmit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@*Modal for Create Item*@
+<div class="modal fade" id="modalFormAdd" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Enter Training Name</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <div class="form-group mx-2 mb-3">
+                    <label for="Training Name">Training Name</label>
+                    <input type="text" class="form-control" id="trainingnameAdd" placeholder="Enter the Training Name" required="">
+                    <label for="Training Details">Training Details</label>
+                    <input type="text" class="form-control" id="trainingdetailsAdd" placeholder="Enter the Training Details" required="">
+                </div>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="addSubmit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts
+    {
+    <script>
+        $(document).ready(function () {
+
+            $('.dltBtn').click(function () {
+                var id = $(this).attr('data-id');
+                $('#myModal').modal('show');
+                $('#modalBtnDlt').click(function () {
+                    $.ajax({
+                        "type": "GET",
+                        "url": "@Url.Action("DltTrainingById")",
+                        "dataType": 'json',
+                        "data": { "Id": id },
+                        "success": function (data) {
+                            window.location.href = '@Url.Action("ListAllTrainings","Admin")'
+                            setInterval('location.reload()', 1000);
+                            //alert("success");
+                        },
+                        "error": function (data) {
+                            alert("failed");
+                        }
+                    });
+                    
+                });
+            });
+
+
+
+            $('.editBtn').click(function () {
+                var id = $(this).attr('data-id');
+                var name = $(this).attr('data-name');
+                var details = $(this).attr('data-details');
+                $('#modalForm').modal('show');
+
+                $("#trainingname").val(name);
+                $("#trainingdetails").val(details);
+                $("#editSubmit").click(function () {
+                    var code = "";
+                    var code1 = "";
+                    var text = $("#trainingname").val();
+                    var text1 = $("#trainingdetails").val();
+                    code += text;
+                    code1 += text1;
+                    $.ajax({
+                        "type": "POST",
+                        "url": "@Url.Action("EditTrainingById")",
+                        "datatype": 'json',
+                        "data": { "TrainingId": id, "TrainingName": code, "TrainingDetails": code1 },
+                        "success": function (data) {
+                            window.location.href = '@Url.Action("ListAllTrainings","Admin")'
+                            setInterval('location.reload()', 1000);
+                            //window.location.reload();
+                        },
+                        "error": function (data) {
+                            alert("Error");
+
+                        }
+
+                    });
+                    
+                });
+            });
+
+
+
+
+            $('.addBtn').click(function () {
+                $('#modalFormAdd').modal('show');
+                $("#addSubmit").click(function () {
+                    var code = "";
+                    var code1 = "";
+                    var text = $("#trainingnameAdd").val();
+                    var text1 = $("#trainingdetailsAdd").val();
+                    console.log(text1);
+                    code += text;
+                    code1 += text1;
+                    console.log(code);
+                    $.ajax({
+                        "type": "POST",
+                        "url": "@Url.Action("AddTraining")",
+                        "datatype": 'json',
+                        "data": { "trainingName": code, "trainingDetails": code1 },
+                        "success": function (data) {
+                            window.location.href = '@Url.Action("ListAllTrainings","Admin")'
+                    setInterval('location.reload()', 1000);
+                        },
+                        "error": function (data) {
+                            alert("Error");
+
+                        }
+
+                    });
+                    
+                });
+            });
+
+        });
+
+        function refreshPage() {
+            location.reload(true);
+        }
+
+    </script>
+}

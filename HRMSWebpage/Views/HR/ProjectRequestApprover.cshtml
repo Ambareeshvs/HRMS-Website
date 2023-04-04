@@ -1,0 +1,196 @@
+﻿@model ProjectViewModel
+
+@{
+    Layout = "_HRMSLayout";
+}
+
+
+<div class="container">
+    <div class="card-header d-flex justify-content-between">
+        Project Allocation
+        @*<div>
+        <a href="#" class="fa fa-add btn btn-primary" id="addBtn"></a>
+        </div>*@
+    </div>
+    <div class="card-body">
+        <table class="table table-bordered" id="MyTable">
+            <thead>
+                <tr>
+                    <th>@Html.DisplayNameFor(data => data.PrjtId)</th>
+                    <th>@Html.DisplayNameFor(data => data.PrjtName)</th>
+                    <th>@Html.DisplayNameFor(data => data.PrjtDescription)</th>
+                    <th>Actions</th>
+
+                </tr>
+
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
+    <div class="card-footer"></div>
+</div>
+
+
+@*Assign Project*@
+<div class="modal fade" id="modalForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Project Assigning</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <div class="form-group mx-2 mb-3">
+
+                    <select asp-for="EmpId" asp-items="ViewBag.Employee" id="ViewBagProject" style="width:100%">
+                        <option value="-1">-Select Employee-</option>
+
+                    </select>
+
+                    <label for="Project Name">Project Start Date</label>
+                    <input type="datetime-local" class="form-control" id="prjtstart" placeholder="" required="">
+                    <label for="Project Name">Project End Date</label>
+                    <input type="datetime-local" class="form-control" id="prjtend" placeholder="" required="">
+                </div>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="assignSubmit" type="submit" class="btn btn-primary" data-bs-dismiss="modal">Save Changes</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@*Remove Assigned*@
+<div class="modal fade" id="modalFormRemove" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content shadow">
+            <div class="modal-header">
+                <h5 class="modal-title">Relieve From Project</h5>
+                <button type="button" id="close" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body bg-image" style="background-image: url()">
+                <div class="form-group mx-2 mb-3">
+
+                    <select asp-for="EmpId" asp-items="ViewBag.Employee" id="ViewBagProjectR" style="width:100%">
+                        <option value="-1">-Select Employee-</option>
+
+                    </select>
+
+                </div>
+            </div>
+            <div class="modal-footer justify text-14">
+                <button id="removeSubmit" type="submit" class="btn btn-danger" data-bs-dismiss="modal">Remove</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $('#ViewBagProject').select2({
+                theme: "bootstrap4",
+                placeholder: "Project Name",
+                allowClear: true
+            });
+
+            $('#ViewBagProjectR').select2({
+                theme: "bootstrap4",
+                placeholder: "Project Name",
+                allowClear: true
+            });
+
+            $('#MyTable').DataTable({
+                "processing": false,
+                "serverSide": false,
+                "filter": true,
+                "searching": false,
+                "ajax": {
+                    "url": "@Url.Action("ListProjectDataTable","HR")",
+                    "type": "GET",
+                    "datatype": "json"
+                },
+
+                "columns": [
+
+                    { "data": "prjtId", "name": "PrjtId", "autoWidth": true },
+                    { "data": "prjtName", "name": "PrjtName", "autoWidth": true },
+                    { "data": "prjtDescription", "name": "PrjtDescription", "autoWidth": true },
+
+                    {
+                        "render": function (data, type, full, meta) {
+                            return '<a onclick=LoadModal("' + full.prjtId + '"); class="btn btn-primary edit"  ><i class="fa fa-pencil-square"></i></a>  <a onclick=RemoveModal("' + full.prjtId + '"); class="btn btn-danger delete"  ><i class="fa fa-trash"></i></a> ';
+                        }
+                    }
+                ]
+            });
+
+
+        });
+
+        function LoadModal(prjtId) {
+            $('#modalForm').modal('show');
+            $('#assignSubmit').click(function () {
+                var startDay = new Date($('#prjtstart').val());
+                var dateS = startDay.getDate();
+                var monthS = startDay.getMonth() + 1;
+                var yearS = startDay.getFullYear();
+                var startDate = dateS + "-" + monthS + "-" + yearS;
+
+                var endDay = new Date($('#prjtend').val());
+                var dateE = startDay.getDate();
+                var monthE = startDay.getMonth() + 1;
+                var yearE = startDay.getFullYear();
+                var endDate = dateE + "-" + monthE + "-" + yearE;
+
+                var empId = $('#ViewBagProject').val();
+
+                $.ajax({
+                    "type": "GET",
+                    "url": "@Url.Action("AddProjectApp")",
+                    "dataType": "json",
+                    "data": { "prjtId": prjtId, "empId": empId, "startDate": startDate, "endDate": endDate },
+                    "success": function (data) {
+                        window.location.href = '@Url.Action("ProjectRequestApprover","HR")'
+                        setinterval('location.reload()', 1000);
+                    },
+                    "error": function () {
+                        alert("Error Occured");
+                    }
+                });
+                
+            });
+        }
+
+        function RemoveModal(prjtId) {
+            $('#modalFormRemove').modal('show');
+            $('#removeSubmit').click(function () {
+
+                var empId = $('#ViewBagProjectR').val();
+
+                $.ajax({
+                    "type": "GET",
+                    "url": "@Url.Action("EditProjectApp")",
+                    "dataType": "json",
+                    "data": { "prjtId": prjtId, "empId": empId },
+                    "success": function (data) {
+                        window.location.href = '@Url.Action("ProjectRequestApprover","HR")'
+                        setinterval('location.reload()', 1000);
+                    },
+                    "error": function () {
+                        alert("Error Occured");
+                    }
+                });
+                
+            });
+        }
+
+    </script>
+}
